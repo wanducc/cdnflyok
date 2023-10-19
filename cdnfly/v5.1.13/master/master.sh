@@ -96,15 +96,16 @@ import platform
 import re
 
 sys_ver = platform.platform()
-sys_ver = re.sub(r'.*-with-(.*)-.*',"\g<1>",sys_ver)
+sys_ver = re.sub(r'.*-with-(.*)-.*', "\g<1>", sys_ver)
 if sys_ver.startswith("centos-7"):
     sys_ver = "centos-7"
 if sys_ver.startswith("centos-6"):
     sys_ver = "centos-6"
-print sys_ver
+print(sys_ver)
 EOF
-echo `python /tmp/sys_ver.py`
+echo $(python /tmp/sys_ver.py)
 }
+
 
 download(){
   local url1=$1
