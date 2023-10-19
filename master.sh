@@ -96,15 +96,16 @@ import platform
 import re
 
 sys_ver = platform.platform()
-sys_ver = re.sub(r'.*-with-(.*)-.*',"\g<1>",sys_ver)
+sys_ver = re.sub(r'.*-with-(.*)-.*', "\g<1>", sys_ver)
 if sys_ver.startswith("centos-7"):
     sys_ver = "centos-7"
 if sys_ver.startswith("centos-6"):
     sys_ver = "centos-6"
-print sys_ver
+print(sys_ver)
 EOF
-echo `python /tmp/sys_ver.py`
+echo $(python /tmp/sys_ver.py)
 }
+
 
 download(){
   local url1=$1
@@ -165,7 +166,8 @@ sync_time(){
 need_sys() {
     SYS_VER=`python -c "import platform;import re;sys_ver = platform.platform();sys_ver = re.sub(r'.*-with-(.*)-.*','\g<1>',sys_ver);print sys_ver;"`
     if [[ $SYS_VER =~ "Ubuntu-16.04" ]];then
-      echo "$sys_ver"
+      SYS_VER="centos-7"
+      echo $SYS_VER
     elif [[ $SYS_VER =~ "centos-7" ]]; then
       SYS_VER="centos-7"
       echo $SYS_VER
@@ -193,34 +195,22 @@ while true ; do
     esac
 done
 
-if [[ $VER == "" ]]; then
+
   # 获取最新版本
   echo "获取最新版..."
-  latest_version=`curl -s 'http://auth.fikkey.com/master/upgrades?latest=1' | grep -Po 'v\d+\.\d+.\d+' || true`
-  if [[ "$latest_version" == "" ]]; then
-    echo "获取最新版失败，请先登录官网填入主控IP"
-    exit 1
-  fi
-
-  echo "最新版本为$latest_version"
-  dir_name="cdnfly-master-$latest_version"
-  tar_gz_name="$dir_name-$(get_sys_ver).tar.gz"
-
-else
   # 安装指定版本
   if [[ ! `echo "$VER" | grep -P "^v\d+\.\d+\.\d+$"` ]]; then
     echo "指定的版本格式不正确，应该类似为v4.0.1"
     exit 1
   fi
 
-  #dir_name="cdnfly-master-$VER"
-  dir_name="cdnfly-master-v5.1.11"
+  dir_name="cdnfly-master-$VER"
+  #dir_name="cdnfly-master-v5.1.11"
   tar_gz_name="$dir_name-$(get_sys_ver).tar.gz"
   echo "安装指定版本$VER"
-fi
 
 cd /opt/
-download "https://github.com/LoveesYe/cdnflydadao/raw/main/master/$tar_gz_name" "https://github.com/LoveesYe/cdnflydadao/raw/main/master/$tar_gz_name" "$tar_gz_name"
+download "https://github.com/wanducc/cdnflyok/raw/main/master/$tar_gz_name" "https://github.com/wanducc/cdnflyok/raw/main/master/$tar_gz_name" "$tar_gz_name"
 
 tar xf $tar_gz_name
 rm -rf cdnfly
