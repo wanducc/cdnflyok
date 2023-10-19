@@ -197,16 +197,10 @@ while true ; do
 done
 
 
-  # 获取最新版本
-  echo "获取最新版..."
-  # 安装指定版本
-  if [[ ! `echo "$VER" | grep -P "^v\d+\.\d+\.\d+$"` ]]; then
-    echo "指定的版本格式不正确，应该类似为v4.0.1"
-    exit 1
-  fi
 
-  dir_name="cdnfly-master-$VER"
-  #dir_name="cdnfly-master-v5.1.11"
+
+ # dir_name="cdnfly-master-$VER"
+  dir_name="cdnfly-master-v5.1.11"
   tar_gz_name="$dir_name-$(get_sys_ver).tar.gz"
   echo "安装指定版本$VER"
 
